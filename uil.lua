@@ -259,10 +259,23 @@ function Bronx:Window(properties)
         Bronx.ToggleGui = Bronx:Create("ScreenGui", { Parent = CoreGui, Name = "BronxToggle", IgnoreGuiInset = true })
         local ToggleButton = Bronx:Create("TextButton", {
             Name = "ToggleButton", Parent = Bronx.ToggleGui, Position = UDim2.new(1, -80, 0, 150), Size = UDim2.new(0, 55, 0, 55),
-            BackgroundTransparency = 0.2, BackgroundColor3 = rgb(0, 0, 0), Text = "V", TextColor3 = rgb(255, 0, 0), TextSize = 28, FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Bold), ZIndex = 10000,
+            BackgroundTransparency = 0.2, BackgroundColor3 = rgb(0, 0, 0), Text = "", ZIndex = 10000,
         })
         Bronx:Create("UICorner", { Parent = ToggleButton, CornerRadius = dim(0, 16) })
         Bronx:Create("UIStroke", { Parent = ToggleButton, Color = rgb(255, 0, 0), Thickness = 1.5 })
+        local toggleLogo = Bronx:Create("ImageLabel", {
+            Parent = ToggleButton, Position = dim2(0.5, 0, 0.5, 0), AnchorPoint = vec2(0.5, 0.5),
+            Size = dim2(0, 35, 0, 35), BackgroundTransparency = 1,
+            Image = Cfg.Logo ~= "" and "rbxthumb://type=Asset&id="..Cfg.Logo.."&w=150&h=150" or "",
+            ImageColor3 = rgb(255, 255, 255), ZIndex = 10001
+        })
+        if Cfg.Logo ~= "" then
+            task.spawn(function()
+                pcall(function()
+                    ContentProvider:PreloadAsync({toggleLogo})
+                end)
+            end)
+        end
         local isTDrag, tDragStart, tStartPos, hasTDragged = false, nil, nil, false
         ToggleButton.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
