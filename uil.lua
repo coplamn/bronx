@@ -185,14 +185,19 @@ function Bronx:Window(properties)
     Items.LogoText.Visible = Cfg.Title ~= ""
     Items.SubLogoText = Bronx:Create("TextLabel", {
         Parent = Items.Header, Text = Cfg.Subtitle:upper(), TextColor3 = themes.preset.accent,
-        AnchorPoint = vec2(0, 0.5), Position = dim2(0, 24 + Items.LogoText.TextBounds.X, 0.5, 0),
+        AnchorPoint = vec2(0, 0.5), Position = dim2(0, 8 + Items.LogoText.TextBounds.X, 0.5, 0),
         Size = dim2(0, 0, 0, 16), AutomaticSize = Enum.AutomaticSize.X,
         BackgroundTransparency = 1, FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold), TextSize = 16, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 4
     })
     Bronx:Themify(Items.SubLogoText, "accent", "TextColor3")
     Items.SubLogoText.Visible = Cfg.Subtitle ~= ""
-    Items.LogoText:GetPropertyChangedSignal("TextBounds"):Connect(function()
-        Items.SubLogoText.Position = dim2(0, 24 + Items.LogoText.TextBounds.X, 0.5, 0)
+    local function updateSubtitlePos()
+        Items.SubLogoText.Position = dim2(0, 8 + Items.LogoText.TextBounds.X, 0.5, 0)
+    end
+    Items.LogoText:GetPropertyChangedSignal("TextBounds"):Connect(updateSubtitlePos)
+    task.spawn(function()
+        task.wait()
+        updateSubtitlePos()
     end)
     local headshot = "rbxthumb://type=AvatarHeadShot&id="..lp.UserId.."&w=48&h=48"
     Items.AvatarFrame = Bronx:Create("Frame", {
