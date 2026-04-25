@@ -114,9 +114,10 @@ function Bronx:Resizify(Parent)
 end
 function Bronx:Window(properties)
     local Cfg = {
-        Title = properties.Title or properties.title or properties.Prefix or "NYX",
+        Title = properties.Title or properties.title or properties.Prefix or "NYX", 
         Subtitle = properties.Subtitle or properties.subtitle or properties.Suffix or "UI",
-        Size = properties.Size or properties.size or dim2(0, 720, 0, 500),
+        Logo = properties.Logo or properties.logo or "132745745021065",
+        Size = properties.Size or properties.size or dim2(0, 720, 0, 500), 
         TabInfo = nil, Items = {}, Tweening = false, IsSwitchingTab = false;
     }
     if Bronx.Gui then Bronx.Gui:Destroy() end
@@ -160,19 +161,23 @@ function Bronx:Window(properties)
     Bronx:Themify(Items.Header, "section", "BackgroundColor3")
     Bronx:Create("UICorner", { Parent = Items.Header, CornerRadius = dim(0, 12) })
     Bronx:Themify(Bronx:Create("UIStroke", { Parent = Items.Header, Color = themes.preset.outline, Thickness = 1 }), "outline", "Color")
+    local logoImage = Cfg.Logo ~= "" and "rbxthumb://type=Asset&id="..Cfg.Logo.."&w=150&h=150" or ""
     Items.Logo = Bronx:Create("ImageLabel", {
         Parent = Items.Header, AnchorPoint = vec2(0, 0.5), Position = dim2(0, 14, 0.5, 0),
         Size = dim2(0, 40, 0, 40), BackgroundTransparency = 1,
-        Image = "rbxthumb://type=Asset&id=132745745021065&w=150&h=150", ZIndex = 4, ImageColor3 = rgb(255, 255, 255)
+        Image = logoImage, ZIndex = 4, ImageColor3 = rgb(255, 255, 255)
     })
-    task.spawn(function()
-        pcall(function()
-            ContentProvider:PreloadAsync({Items.Logo})
+    Items.Logo.Visible = Cfg.Logo ~= ""
+    if Cfg.Logo ~= "" then
+        task.spawn(function()
+            pcall(function()
+                ContentProvider:PreloadAsync({Items.Logo})
+            end)
         end)
-    end)
+    end
     Items.LogoText = Bronx:Create("TextLabel", {
         Parent = Items.Header, Text = Cfg.Title, TextColor3 = themes.preset.text,
-        AnchorPoint = vec2(0, 0.5), Position = dim2(0, 62, 0.5, 0),
+        AnchorPoint = vec2(0, 0.5), Position = dim2(0, Cfg.Logo ~= "" and 70 or 14, 0.5, 0),
         Size = dim2(0, 0, 0, 16), AutomaticSize = Enum.AutomaticSize.X,
         BackgroundTransparency = 1, FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Bold), TextSize = 16, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 4
     })
