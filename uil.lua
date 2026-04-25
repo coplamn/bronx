@@ -177,6 +177,7 @@ function Bronx:Window(properties)
         BackgroundTransparency = 1, FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Bold), TextSize = 16, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 4
     })
     Bronx:Themify(Items.LogoText, "text", "TextColor3")
+    Items.LogoText.Visible = Cfg.Title ~= ""
     Items.SubLogoText = Bronx:Create("TextLabel", {
         Parent = Items.Header, Text = Cfg.Subtitle:upper(), TextColor3 = themes.preset.accent,
         AnchorPoint = vec2(0, 0.5), Position = dim2(0, 24 + Items.LogoText.TextBounds.X, 0.5, 0),
@@ -184,6 +185,7 @@ function Bronx:Window(properties)
         BackgroundTransparency = 1, FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold), TextSize = 16, TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 4
     })
     Bronx:Themify(Items.SubLogoText, "accent", "TextColor3")
+    Items.SubLogoText.Visible = Cfg.Subtitle ~= ""
     Items.LogoText:GetPropertyChangedSignal("TextBounds"):Connect(function()
         Items.SubLogoText.Position = dim2(0, 24 + Items.LogoText.TextBounds.X, 0.5, 0)
     end)
