@@ -18,6 +18,7 @@ local Bronx = getgenv().Bronx
 local Window = Bronx:Window({
     Title = "My Script",
     Subtitle = "v1.0",
+    Logo = "132745745021065",  -- Optional: Asset ID for logo (set to "" to hide)
     Size = UDim2.new(0, 520, 0, 380)
 
     -- use Size = UDim2.fromOffset(720, 500) for fixed size
@@ -168,7 +169,8 @@ local Bronx = getgenv().Bronx
 -- Create window
 local Window = Bronx:Window({
     Title = "My Script",
-    Subtitle = "v1.0",
+    Subtitle = "v1.0", -- can be version of your script or wtv blah blah negus
+    Logo = "132745745021065",  -- Optional: Set to "" to hide logo
     Size = UDim2.new(0, 520, 0, 380)
 })
 
