@@ -149,30 +149,27 @@ function AutoDupe:Window(options)
     })
     create("UICorner", {CornerRadius = UDim.new(0, 12), Parent = TopBar})
 
+    -- Logo
+    local Logo = create("ImageLabel", {
+        Size = UDim2.new(0, 40, 0, 40),
+        Position = UDim2.new(0, 8, 0, 5),
+        BackgroundColor3 = Theme.accent,
+        BackgroundTransparency = 0,
+        Image = LogoId,
+        ImageTransparency = 0,
+        ZIndex = 10,
+        Parent = TopBar
+    })
+    create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = Logo})
+
     -- Mask for topbar corners
     local TopBarMask = create("Frame", {
         Size = UDim2.new(1, 0, 0, 25),
         Position = UDim2.new(0, 0, 0, 25),
         BackgroundColor3 = Theme.section,
         BorderSizePixel = 0,
+        ZIndex = 1,
         Parent = TopBar
-    })
-
-    -- Logo
-    local Logo = create("ImageLabel", {
-        Size = UDim2.new(0, 36, 0, 36),
-        Position = UDim2.new(0, 10, 0.5, -18),
-        BackgroundColor3 = Theme.element,
-        BackgroundTransparency = 0,
-        Image = LogoId,
-        ZIndex = 10,
-        Parent = TopBar
-    })
-    create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = Logo})
-    create("UIStroke", {
-        Color = Theme.outline,
-        Thickness = 1,
-        Parent = Logo
     })
 
     -- Title
