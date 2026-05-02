@@ -154,7 +154,8 @@ function AutoDupe:Window(options)
         Size = UDim2.new(0, 40, 0, 40),
         Position = UDim2.new(0, 8, 0, 5),
         BackgroundColor3 = Theme.accent,
-        BackgroundTransparency = 0,
+        ScaleType = Enum.ScaleType.Fit
+        BackgroundTransparency = 1,
         Image = LogoId,
         ImageTransparency = 0,
         ZIndex = 10,
