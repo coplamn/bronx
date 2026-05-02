@@ -36,7 +36,7 @@ local Theme = {
     tab_inactive = rgb(22, 22, 35),
 }
 
-local LogoId = "rbxthumb://type=Asset&id=132745745021065&w=150&h=150"
+local LogoId = "rbxassetid://132745745021065"
 
 -- Library table
 local AutoDupe = {}
