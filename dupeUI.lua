@@ -1,5 +1,6 @@
 -- Auto Dupe GUI
 -- Custom themed GUI library
+-- Load via: loadstring(game:HttpGet("https://raw.githubusercontent.com/coplamn/bronx/refs/heads/main/dupeUI.lua"))()
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
@@ -159,13 +160,20 @@ function AutoDupe:Window(options)
 
     -- Logo
     local Logo = create("ImageLabel", {
-        Size = UDim2.new(0, 32, 0, 32),
-        Position = UDim2.new(0, 12, 0.5, -16),
-        BackgroundTransparency = 1,
+        Size = UDim2.new(0, 36, 0, 36),
+        Position = UDim2.new(0, 10, 0.5, -18),
+        BackgroundColor3 = Theme.element,
+        BackgroundTransparency = 0,
         Image = LogoId,
+        ZIndex = 10,
         Parent = TopBar
     })
     create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = Logo})
+    create("UIStroke", {
+        Color = Theme.outline,
+        Thickness = 1,
+        Parent = Logo
+    })
 
     -- Title
     local Title = create("TextLabel", {
