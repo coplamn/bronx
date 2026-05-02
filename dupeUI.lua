@@ -36,8 +36,6 @@ local Theme = {
     tab_inactive = rgb(22, 22, 35),
 }
 
-local LogoId = "rbxassetid://132745745021065"
-
 -- Library table
 local AutoDupe = {}
 AutoDupe.Flags = {}
@@ -113,7 +111,7 @@ function AutoDupe:Window(options)
     options = options or {}
     local Name = options.Name or "Auto Dupe"
     local Subtitle = options.Subtitle or ""
-    local Size = options.Size or UDim2.new(0, 600, 0, 450)
+    local Size = options.Size or UDim2.new(0, 650, 0, 480)
 
     -- ScreenGui
     local ScreenGui = create("ScreenGui", {
@@ -123,103 +121,121 @@ function AutoDupe:Window(options)
     })
     safeParent(ScreenGui)
 
-    -- Main Frame
+    -- Main Frame with shadow effect
+    local Shadow = create("Frame", {
+        Name = "Shadow",
+        Size = UDim2.new(1, 20, 1, 20),
+        Position = UDim2.new(0, -10, 0, -10),
+        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+        BackgroundTransparency = 0.85,
+        BorderSizePixel = 0,
+        Parent = ScreenGui,
+        ZIndex = 0
+    })
+    create("UICorner", {CornerRadius = UDim.new(0, 18), Parent = Shadow})
+
     local Main = create("Frame", {
         Name = "Main",
         Size = Size,
         Position = UDim2.new(0.5, -Size.X.Offset / 2, 0.5, -Size.Y.Offset / 2),
         BackgroundColor3 = Theme.background,
         BorderSizePixel = 0,
-        Parent = ScreenGui
+        Parent = ScreenGui,
+        ZIndex = 1
     })
-    create("UICorner", {CornerRadius = UDim.new(0, 12), Parent = Main})
+    create("UICorner", {CornerRadius = UDim.new(0, 16), Parent = Main})
     create("UIStroke", {
         Color = Theme.outline,
-        Thickness = 2,
+        Thickness = 1.5,
+        Transparency = 0.3,
         Parent = Main
     })
 
-    -- Top Bar
+    -- Top Bar with gradient
     local TopBar = create("Frame", {
         Name = "TopBar",
-        Size = UDim2.new(1, 0, 0, 50),
+        Size = UDim2.new(1, 0, 0, 60),
         BackgroundColor3 = Theme.section,
         BorderSizePixel = 0,
-        Parent = Main
+        Parent = Main,
+        ZIndex = 2
     })
-    create("UICorner", {CornerRadius = UDim.new(0, 12), Parent = TopBar})
+    create("UICorner", {CornerRadius = UDim.new(0, 16), Parent = TopBar})
 
-    -- Logo
-    local Logo = create("ImageLabel", {
-        Size = UDim2.new(0, 40, 0, 40),
-        Position = UDim2.new(0, 8, 0, 5),
+    -- Top bar gradient overlay
+    local TopBarGradient = create("Frame", {
+        Size = UDim2.new(1, 0, 0, 60),
         BackgroundColor3 = Theme.accent,
-        BackgroundTransparency = 0,
-        Image = LogoId,
-        ImageTransparency = 0,
-        ZIndex = 10,
-        Parent = TopBar
+        BackgroundTransparency = 0.95,
+        BorderSizePixel = 0,
+        Parent = TopBar,
+        ZIndex = 2
     })
-    create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = Logo})
+    create("UICorner", {CornerRadius = UDim.new(0, 16), Parent = TopBarGradient})
 
     -- Mask for topbar corners
     local TopBarMask = create("Frame", {
-        Size = UDim2.new(1, 0, 0, 25),
-        Position = UDim2.new(0, 0, 0, 25),
+        Size = UDim2.new(1, 0, 0, 30),
+        Position = UDim2.new(0, 0, 0, 30),
         BackgroundColor3 = Theme.section,
         BorderSizePixel = 0,
-        ZIndex = 1,
-        Parent = TopBar
+        Parent = TopBar,
+        ZIndex = 3
     })
 
     -- Title
     local Title = create("TextLabel", {
-        Size = UDim2.new(1, -160, 1, 0),
-        Position = UDim2.new(0, 52, 0, 0),
+        Size = UDim2.new(1, -80, 0, 24),
+        Position = UDim2.new(0, 16, 0, 12),
         BackgroundTransparency = 1,
         Text = Name,
         TextColor3 = Theme.text,
-        TextSize = 18,
+        TextSize = 20,
         Font = Enum.Font.GothamBold,
         TextXAlignment = Enum.TextXAlignment.Left,
+        ZIndex = 10,
         Parent = TopBar
     })
 
     -- Subtitle
     if Subtitle ~= "" then
         local SubtitleLabel = create("TextLabel", {
-            Size = UDim2.new(1, -160, 0, 14),
-            Position = UDim2.new(0, 52, 0, 32),
+            Size = UDim2.new(1, -80, 0, 16),
+            Position = UDim2.new(0, 16, 0, 36),
             BackgroundTransparency = 1,
             Text = Subtitle,
-            TextColor3 = Theme.subtext,
+            TextColor3 = Theme.accent,
             TextSize = 12,
-            Font = Enum.Font.Gotham,
+            Font = Enum.Font.GothamSemibold,
             TextXAlignment = Enum.TextXAlignment.Left,
+            ZIndex = 10,
             Parent = TopBar
         })
     end
 
-    -- Close Button
+    -- Close Button with hover effect
     local CloseBtn = create("TextButton", {
-        Size = UDim2.new(0, 32, 0, 32),
-        Position = UDim2.new(1, -40, 0.5, -16),
+        Size = UDim2.new(0, 36, 0, 36),
+        Position = UDim2.new(1, -44, 0.5, -18),
         BackgroundColor3 = Theme.element,
         BackgroundTransparency = 0,
-        Text = "×",
+        Text = "✕",
         TextColor3 = Theme.text,
-        TextSize = 20,
+        TextSize = 18,
         Font = Enum.Font.GothamBold,
+        ZIndex = 10,
         Parent = TopBar
     })
-    create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = CloseBtn})
+    create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = CloseBtn})
 
     CloseBtn.MouseButton1Click:Connect(function()
+        tween(Main, {Size = UDim2.new(0, 0, 0, 0), Position = UDim2.new(0.5, 0, 0.5, 0)}, 0.2)
+        task.wait(0.2)
         ScreenGui:Destroy()
     end)
 
     CloseBtn.MouseEnter:Connect(function()
-        tween(CloseBtn, {BackgroundColor3 = Theme.accent})
+        tween(CloseBtn, {BackgroundColor3 = Color3.fromRGB(200, 50, 50)})
     end)
     CloseBtn.MouseLeave:Connect(function()
         tween(CloseBtn, {BackgroundColor3 = Theme.element})
@@ -227,23 +243,36 @@ function AutoDupe:Window(options)
 
     makeDraggable(Main, TopBar)
 
-    -- Sidebar
+    -- Sidebar with improved design
     local Sidebar = create("Frame", {
         Name = "Sidebar",
-        Size = UDim2.new(0, 150, 1, -50),
-        Position = UDim2.new(0, 0, 0, 50),
+        Size = UDim2.new(0, 165, 1, -60),
+        Position = UDim2.new(0, 0, 0, 60),
         BackgroundColor3 = Theme.section,
         BorderSizePixel = 0,
+        ZIndex = 2,
         Parent = Main
+    })
+
+    -- Sidebar separator
+    local SidebarLine = create("Frame", {
+        Size = UDim2.new(0, 1, 1, 0),
+        Position = UDim2.new(1, -1, 0, 0),
+        BackgroundColor3 = Theme.outline,
+        BackgroundTransparency = 0.7,
+        BorderSizePixel = 0,
+        ZIndex = 3,
+        Parent = Sidebar
     })
 
     -- Content Area
     local Content = create("Frame", {
         Name = "Content",
-        Size = UDim2.new(1, -150, 1, -50),
-        Position = UDim2.new(0, 150, 0, 50),
+        Size = UDim2.new(1, -165, 1, -60),
+        Position = UDim2.new(0, 165, 0, 60),
         BackgroundColor3 = Theme.background,
         BorderSizePixel = 0,
+        ZIndex = 2,
         Parent = Main
     })
 
@@ -254,16 +283,17 @@ function AutoDupe:Window(options)
         BackgroundTransparency = 1,
         ScrollBarThickness = 0,
         CanvasSize = UDim2.new(0, 0, 0, 0),
+        ZIndex = 3,
         Parent = Sidebar
     })
     create("UIPadding", {
-        PaddingTop = UDim.new(0, 10),
-        PaddingLeft = UDim.new(0, 8),
-        PaddingRight = UDim.new(0, 8),
+        PaddingTop = UDim.new(0, 12),
+        PaddingLeft = UDim.new(0, 10),
+        PaddingRight = UDim.new(0, 10),
         Parent = TabContainer
     })
     create("UIListLayout", {
-        Padding = UDim.new(0, 6),
+        Padding = UDim.new(0, 8),
         SortOrder = Enum.SortOrder.LayoutOrder,
         Parent = TabContainer
     })
@@ -273,6 +303,7 @@ function AutoDupe:Window(options)
         Name = "Pages",
         Size = UDim2.new(1, 0, 1, 0),
         BackgroundTransparency = 1,
+        ZIndex = 2,
         Parent = Content
     })
 
@@ -288,35 +319,50 @@ function AutoDupe:Window(options)
     function Window:AddTab(name)
         local TabBtn = create("TextButton", {
             Name = name,
-            Size = UDim2.new(1, 0, 0, 36),
+            Size = UDim2.new(1, 0, 0, 42),
             BackgroundColor3 = Theme.tab_inactive,
+            BackgroundTransparency = 0,
             Text = name,
             TextColor3 = Theme.subtext,
-            TextSize = 13,
+            TextSize = 14,
             Font = Enum.Font.GothamSemibold,
-            Parent = TabContainer
+            Parent = TabContainer,
+            ZIndex = 4
         })
-        create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = TabBtn})
+        create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = TabBtn})
+
+        -- Tab indicator
+        local Indicator = create("Frame", {
+            Size = UDim2.new(0, 3, 0, 20),
+            Position = UDim2.new(0, 0, 0.5, -10),
+            BackgroundColor3 = Theme.accent,
+            BackgroundTransparency = 1,
+            BorderSizePixel = 0,
+            Parent = TabBtn,
+            ZIndex = 5
+        })
+        create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Indicator})
 
         local Page = create("ScrollingFrame", {
             Name = name .. "Page",
             Size = UDim2.new(1, 0, 1, 0),
             BackgroundTransparency = 1,
-            ScrollBarThickness = 4,
+            ScrollBarThickness = 6,
             ScrollBarImageColor3 = Theme.accent,
             CanvasSize = UDim2.new(0, 0, 0, 0),
             Visible = false,
+            ZIndex = 3,
             Parent = Pages
         })
         create("UIPadding", {
-            PaddingTop = UDim.new(0, 10),
-            PaddingLeft = UDim.new(0, 10),
-            PaddingRight = UDim.new(0, 10),
-            PaddingBottom = UDim.new(0, 10),
+            PaddingTop = UDim.new(0, 16),
+            PaddingLeft = UDim.new(0, 16),
+            PaddingRight = UDim.new(0, 16),
+            PaddingBottom = UDim.new(0, 16),
             Parent = Page
         })
         create("UIListLayout", {
-            Padding = UDim.new(0, 10),
+            Padding = UDim.new(0, 14),
             SortOrder = Enum.SortOrder.LayoutOrder,
             Parent = Page
         })
@@ -325,6 +371,7 @@ function AutoDupe:Window(options)
             Button = TabBtn,
             Page = Page,
             Name = name,
+            Indicator = Indicator,
             Sections = {}
         }
 
@@ -351,34 +398,36 @@ function AutoDupe:Window(options)
                 Name = name,
                 Size = UDim2.new(1, 0, 0, 0),
                 BackgroundColor3 = Theme.section,
-                Parent = Page
+                Parent = Page,
+                ZIndex = 4
             })
             Section.AutomaticSize = Enum.AutomaticSize.Y
-            create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = Section})
+            create("UICorner", {CornerRadius = UDim.new(0, 12), Parent = Section})
             create("UIStroke", {
                 Color = Theme.outline,
                 Thickness = 1,
+                Transparency = 0.5,
                 Parent = Section
             })
             create("UIPadding", {
-                PaddingTop = UDim.new(0, 10),
-                PaddingLeft = UDim.new(0, 10),
-                PaddingRight = UDim.new(0, 10),
-                PaddingBottom = UDim.new(0, 10),
+                PaddingTop = UDim.new(0, 14),
+                PaddingLeft = UDim.new(0, 14),
+                PaddingRight = UDim.new(0, 14),
+                PaddingBottom = UDim.new(0, 14),
                 Parent = Section
             })
             create("UIListLayout", {
-                Padding = UDim.new(0, 8),
+                Padding = UDim.new(0, 12),
                 SortOrder = Enum.SortOrder.LayoutOrder,
                 Parent = Section
             })
 
             local SectionTitle = create("TextLabel", {
-                Size = UDim2.new(1, 0, 0, 20),
+                Size = UDim2.new(1, 0, 0, 24),
                 BackgroundTransparency = 1,
                 Text = string.upper(name),
                 TextColor3 = Theme.accent,
-                TextSize = 12,
+                TextSize = 11,
                 Font = Enum.Font.GothamBold,
                 TextXAlignment = Enum.TextXAlignment.Left,
                 Parent = Section
@@ -397,26 +446,26 @@ function AutoDupe:Window(options)
                 local flag = options.Flag
 
                 local ToggleFrame = create("Frame", {
-                    Size = UDim2.new(1, 0, 0, 30),
+                    Size = UDim2.new(1, 0, 0, 36),
                     BackgroundTransparency = 1,
                     Parent = Section
                 })
 
                 local ToggleLabel = create("TextLabel", {
-                    Size = UDim2.new(1, -50, 1, 0),
+                    Size = UDim2.new(1, -54, 1, 0),
                     Position = UDim2.new(0, 0, 0, 0),
                     BackgroundTransparency = 1,
                     Text = name,
                     TextColor3 = Theme.text,
                     TextSize = 14,
-                    Font = Enum.Font.Gotham,
+                    Font = Enum.Font.GothamSemibold,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     Parent = ToggleFrame
                 })
 
                 local ToggleBtn = create("TextButton", {
-                    Size = UDim2.new(0, 40, 0, 20),
-                    Position = UDim2.new(1, -40, 0.5, -10),
+                    Size = UDim2.new(0, 44, 0, 24),
+                    Position = UDim2.new(1, -44, 0.5, -12),
                     BackgroundColor3 = Theme.element,
                     Text = "",
                     Parent = ToggleFrame
@@ -425,12 +474,13 @@ function AutoDupe:Window(options)
                 create("UIStroke", {
                     Color = Theme.outline,
                     Thickness = 1,
+                    Transparency = 0.5,
                     Parent = ToggleBtn
                 })
 
                 local ToggleDot = create("Frame", {
-                    Size = UDim2.new(0, 14, 0, 14),
-                    Position = UDim2.new(0, 3, 0.5, -7),
+                    Size = UDim2.new(0, 16, 0, 16),
+                    Position = UDim2.new(0, 4, 0.5, -8),
                     BackgroundColor3 = Theme.subtext,
                     Parent = ToggleBtn
                 })
@@ -440,11 +490,11 @@ function AutoDupe:Window(options)
 
                 local function updateToggle()
                     if state then
-                        tween(ToggleBtn, {BackgroundColor3 = Theme.accent})
-                        tween(ToggleDot, {Position = UDim2.new(1, -17, 0.5, -7), BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+                        tween(ToggleBtn, {BackgroundColor3 = Theme.accent}, 0.25)
+                        tween(ToggleDot, {Position = UDim2.new(1, -20, 0.5, -8), BackgroundColor3 = Color3.fromRGB(255, 255, 255)}, 0.25)
                     else
-                        tween(ToggleBtn, {BackgroundColor3 = Theme.element})
-                        tween(ToggleDot, {Position = UDim2.new(0, 3, 0.5, -7), BackgroundColor3 = Theme.subtext})
+                        tween(ToggleBtn, {BackgroundColor3 = Theme.element}, 0.25)
+                        tween(ToggleDot, {Position = UDim2.new(0, 4, 0.5, -8), BackgroundColor3 = Theme.subtext}, 0.25)
                     end
                 end
 
@@ -478,7 +528,7 @@ function AutoDupe:Window(options)
                 local callback = options.Callback or function() end
 
                 local Button = create("TextButton", {
-                    Size = UDim2.new(1, 0, 0, 32),
+                    Size = UDim2.new(1, 0, 0, 38),
                     BackgroundColor3 = Theme.element,
                     Text = name,
                     TextColor3 = Theme.text,
@@ -486,22 +536,26 @@ function AutoDupe:Window(options)
                     Font = Enum.Font.GothamSemibold,
                     Parent = Section
                 })
-                create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = Button})
+                create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = Button})
                 create("UIStroke", {
                     Color = Theme.outline,
                     Thickness = 1,
+                    Transparency = 0.5,
                     Parent = Button
                 })
 
                 Button.MouseButton1Click:Connect(function()
+                    tween(Button, {Size = UDim2.new(1, 0, 0, 34)}, 0.1)
+                    task.wait(0.1)
+                    tween(Button, {Size = UDim2.new(1, 0, 0, 38)}, 0.1)
                     callback()
                 end)
 
                 Button.MouseEnter:Connect(function()
-                    tween(Button, {BackgroundColor3 = Theme.accent})
+                    tween(Button, {BackgroundColor3 = Theme.accent}, 0.2)
                 end)
                 Button.MouseLeave:Connect(function()
-                    tween(Button, {BackgroundColor3 = Theme.element})
+                    tween(Button, {BackgroundColor3 = Theme.element}, 0.2)
                 end)
             end
 
@@ -515,25 +569,25 @@ function AutoDupe:Window(options)
                 local flag = options.Flag
 
                 local SliderFrame = create("Frame", {
-                    Size = UDim2.new(1, 0, 0, 45),
+                    Size = UDim2.new(1, 0, 0, 52),
                     BackgroundTransparency = 1,
                     Parent = Section
                 })
 
                 local SliderLabel = create("TextLabel", {
-                    Size = UDim2.new(1, 0, 0, 20),
+                    Size = UDim2.new(1, 0, 0, 22),
                     BackgroundTransparency = 1,
                     Text = name .. ": " .. tostring(default),
                     TextColor3 = Theme.text,
                     TextSize = 13,
-                    Font = Enum.Font.Gotham,
+                    Font = Enum.Font.GothamSemibold,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     Parent = SliderFrame
                 })
 
                 local SliderBg = create("Frame", {
-                    Size = UDim2.new(1, 0, 0, 8),
-                    Position = UDim2.new(0, 0, 0, 25),
+                    Size = UDim2.new(1, 0, 0, 10),
+                    Position = UDim2.new(0, 0, 0, 28),
                     BackgroundColor3 = Theme.element,
                     Parent = SliderFrame
                 })
@@ -605,35 +659,36 @@ function AutoDupe:Window(options)
                 local flag = options.Flag
 
                 local DropdownFrame = create("Frame", {
-                    Size = UDim2.new(1, 0, 0, 35),
+                    Size = UDim2.new(1, 0, 0, 40),
                     BackgroundTransparency = 1,
                     Parent = Section
                 })
 
                 local DropdownBtn = create("TextButton", {
-                    Size = UDim2.new(1, 0, 0, 30),
+                    Size = UDim2.new(1, 0, 0, 36),
                     BackgroundColor3 = Theme.element,
                     Text = name .. ": " .. tostring(default),
                     TextColor3 = Theme.text,
                     TextSize = 13,
-                    Font = Enum.Font.Gotham,
+                    Font = Enum.Font.GothamSemibold,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     Parent = DropdownFrame
                 })
-                create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = DropdownBtn})
+                create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = DropdownBtn})
                 create("UIStroke", {
                     Color = Theme.outline,
                     Thickness = 1,
+                    Transparency = 0.5,
                     Parent = DropdownBtn
                 })
                 create("UIPadding", {
-                    PaddingLeft = UDim.new(0, 10),
+                    PaddingLeft = UDim.new(0, 12),
                     Parent = DropdownBtn
                 })
 
                 local Arrow = create("TextLabel", {
                     Size = UDim2.new(0, 20, 1, 0),
-                    Position = UDim2.new(1, -25, 0, 0),
+                    Position = UDim2.new(1, -24, 0, 0),
                     BackgroundTransparency = 1,
                     Text = "▼",
                     TextColor3 = Theme.subtext,
@@ -643,16 +698,17 @@ function AutoDupe:Window(options)
 
                 local DropdownList = create("Frame", {
                     Size = UDim2.new(1, 0, 0, 0),
-                    Position = UDim2.new(0, 0, 0, 35),
+                    Position = UDim2.new(0, 0, 0, 40),
                     BackgroundColor3 = Theme.section,
                     Parent = DropdownFrame
                 })
                 DropdownList.Visible = false
                 DropdownList.AutomaticSize = Enum.AutomaticSize.Y
-                create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = DropdownList})
+                create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = DropdownList})
                 create("UIStroke", {
                     Color = Theme.outline,
                     Thickness = 1,
+                    Transparency = 0.5,
                     Parent = DropdownList
                 })
                 create("UIListLayout", {
@@ -667,7 +723,6 @@ function AutoDupe:Window(options)
                     expanded = not expanded
                     DropdownList.Visible = expanded
                     Arrow.Text = expanded and "▲" or "▼"
-                    Arrow.Rotation = expanded and 180 or 0
                 end
 
                 DropdownBtn.MouseButton1Click:Connect(function()
@@ -676,7 +731,7 @@ function AutoDupe:Window(options)
 
                 for _, option in ipairs(list) do
                     local OptionBtn = create("TextButton", {
-                        Size = UDim2.new(1, 0, 0, 28),
+                        Size = UDim2.new(1, 0, 0, 32),
                         BackgroundColor3 = Theme.element,
                         Text = tostring(option),
                         TextColor3 = Theme.text,
@@ -684,7 +739,7 @@ function AutoDupe:Window(options)
                         Font = Enum.Font.Gotham,
                         Parent = DropdownList
                     })
-                    create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = OptionBtn})
+                    create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = OptionBtn})
 
                     OptionBtn.MouseButton1Click:Connect(function()
                         selected = option
@@ -695,10 +750,10 @@ function AutoDupe:Window(options)
                     end)
 
                     OptionBtn.MouseEnter:Connect(function()
-                        tween(OptionBtn, {BackgroundColor3 = Theme.accent})
+                        tween(OptionBtn, {BackgroundColor3 = Theme.accent}, 0.15)
                     end)
                     OptionBtn.MouseLeave:Connect(function()
-                        tween(OptionBtn, {BackgroundColor3 = Theme.element})
+                        tween(OptionBtn, {BackgroundColor3 = Theme.element}, 0.15)
                     end)
                 end
 
@@ -725,25 +780,25 @@ function AutoDupe:Window(options)
                 local flag = options.Flag
 
                 local InputFrame = create("Frame", {
-                    Size = UDim2.new(1, 0, 0, 35),
+                    Size = UDim2.new(1, 0, 0, 42),
                     BackgroundTransparency = 1,
                     Parent = Section
                 })
 
                 local InputLabel = create("TextLabel", {
-                    Size = UDim2.new(1, 0, 0, 18),
+                    Size = UDim2.new(1, 0, 0, 20),
                     BackgroundTransparency = 1,
                     Text = name,
                     TextColor3 = Theme.text,
                     TextSize = 13,
-                    Font = Enum.Font.Gotham,
+                    Font = Enum.Font.GothamSemibold,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     Parent = InputFrame
                 })
 
                 local InputBox = create("TextBox", {
-                    Size = UDim2.new(1, 0, 0, 28),
-                    Position = UDim2.new(0, 0, 0, 18),
+                    Size = UDim2.new(1, 0, 0, 32),
+                    Position = UDim2.new(0, 0, 0, 20),
                     BackgroundColor3 = Theme.element,
                     Text = "",
                     PlaceholderText = placeholder,
@@ -754,20 +809,29 @@ function AutoDupe:Window(options)
                     ClearTextOnFocus = false,
                     Parent = InputFrame
                 })
-                create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = InputBox})
+                create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = InputBox})
                 create("UIStroke", {
                     Color = Theme.outline,
                     Thickness = 1,
+                    Transparency = 0.5,
                     Parent = InputBox
                 })
                 create("UIPadding", {
-                    PaddingLeft = UDim.new(0, 10),
+                    PaddingLeft = UDim.new(0, 12),
                     Parent = InputBox
                 })
 
                 InputBox.FocusLost:Connect(function(enterPressed)
                     callback(InputBox.Text, enterPressed)
                     if flag then AutoDupe.Flags[flag] = InputBox.Text end
+                end)
+
+                InputBox.Focused:Connect(function()
+                    tween(InputBox, {BackgroundColor3 = Theme.accent}, 0.2)
+                end)
+
+                InputBox.FocusLost:Connect(function()
+                    tween(InputBox, {BackgroundColor3 = Theme.element}, 0.2)
                 end)
 
                 return {
@@ -788,7 +852,7 @@ function AutoDupe:Window(options)
                     Text = text or "Label",
                     TextColor3 = Theme.subtext,
                     TextSize = 13,
-                    Font = Enum.Font.Gotham,
+                    Font = Enum.Font.GothamSemibold,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     Parent = Section
                 })
@@ -816,6 +880,7 @@ function AutoDupe:Window(options)
                 BackgroundColor3 = Theme.tab_inactive,
                 TextColor3 = Theme.subtext
             })
+            tween(self.CurrentTab.Indicator, {BackgroundTransparency = 1})
         end
 
         self.CurrentTab = tab
@@ -824,6 +889,7 @@ function AutoDupe:Window(options)
             BackgroundColor3 = Theme.tab_active,
             TextColor3 = Theme.text
         })
+        tween(tab.Indicator, {BackgroundTransparency = 0})
     end
 
     -- Update canvas size
